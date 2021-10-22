@@ -28,3 +28,12 @@ Route::apiResource('buildings', BuildingController::class)->only([
 Route::apiResource('rubrics', RubricController::class)->only([
     'index', 'show'
 ]);
+
+Route::fallback(function(){
+    return response()->json(
+        ['error' =>
+            ['route' => 'Not Found']
+        ],
+        404
+    );
+});
