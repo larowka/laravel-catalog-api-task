@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BuildingCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Http\Filters\BuildingFilter;
@@ -21,12 +22,12 @@ class BuildingController extends Controller
     public function index(): JsonResource
     {
         $buildings = Building::filter($this->filter)->paginate(10);
-        return BuildingResource::collection($buildings);
+        return BuildingCollection::make($buildings);
     }
 
     public function show(int $id): JsonResource
     {
         $buildings = Building::filter($this->filter)->findOrFail($id);
-        return new BuildingResource($buildings);
+        return BuildingResource::make($buildings);
     }
 }

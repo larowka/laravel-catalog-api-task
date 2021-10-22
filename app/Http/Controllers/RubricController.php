@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RubricCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Http\Filters\RubricFilter;
@@ -21,12 +22,12 @@ class RubricController extends Controller
     public function index(): JsonResource
     {
         $rubrics = Rubric::filter($this->filter)->paginate(10);
-        return RubricResource::collection($rubrics);
+        return RubricCollection::make($rubrics);
     }
 
     public function show(int $id): JsonResource
     {
         $rubrics = Rubric::filter($this->filter)->findOrFail($id);
-        return new RubricResource($rubrics);
+        return RubricResource::make($rubrics);
     }
 }

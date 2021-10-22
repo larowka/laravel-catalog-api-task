@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CompanyCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Http\Filters\CompanyFilter;
@@ -21,12 +22,12 @@ class CompanyController extends Controller
     public function index(): JsonResource
     {
         $companies = Company::filter($this->filter)->paginate(10);
-        return CompanyResource::collection($companies);
+        return CompanyCollection::make($companies);
     }
 
     public function show(int $id): JsonResource
     {
         $companies = Company::filter($this->filter)->findOrFail($id);
-        return new CompanyResource($companies);
+        return CompanyResource::make($companies);
     }
 }
