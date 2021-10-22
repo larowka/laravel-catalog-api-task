@@ -1,0 +1,132 @@
+openapi: 3.0.3
+
+info:
+  title: OpenAPI HttpFoundation Testing Laravel Example
+  version: 1.0.0
+
+servers:
+  - url: http://localhost/api
+
+paths:
+  '/buildings':
+    get:
+      description: Get buildings
+      parameters:
+        - $ref: '#/components/parameters/Latitude'
+        - $ref: '#/components/parameters/Longitude'
+        - $ref: '#/components/parameters/Radius'
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildingResource'
+
+    post:
+      responses:
+        200:
+          description: Ok
+
+  '/buildings/{id}':
+    parameters:
+      - $ref: '#/components/parameters/ID'
+      - $ref: '#/components/parameters/Title'
+
+    get:
+      responses:
+        200:
+          description: Ok
+    put:
+      responses:
+        200:
+          description: Ok
+    delete:
+      responses:
+        200:
+          description: Ok
+
+components:
+  schemas:
+    Building:
+      title: Building
+      description: Building model
+      type: object
+      properties:
+        id:
+          title: ID
+          description: ID
+          type: integer
+          format: int64
+          example: 1
+        title:
+          title: Title
+          description: Title
+          type: string
+          example: Awesome Building
+        coords:
+          title: Coords
+          description: Coordinates
+          type: object
+          properties:
+            lat:
+              title: Latitude
+              description: Latitude
+              type: number
+              example: 30.4
+            lon:
+              title: Longitude
+              description: Longitude
+              type: number
+              example: -90.4
+
+    BuildingResource:
+      title: Building Resource
+      description: Building Resource
+      type: object
+      properties:
+        data:
+          title: Data
+          description: Data wrapper
+          type: array
+          items:
+            $ref: '#/components/schemas/Building'
+
+  parameters:
+    ID:
+      in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: Object ID
+
+    Title:
+      in: query
+      name: title
+      schema:
+        type: string
+      required: false
+      description: Object Title
+
+    Latitude:
+      name: lat
+      in: query
+      description: Latitude
+      schema:
+        type: number
+
+    Longitude:
+      name: lon
+      in: query
+      description: Longitude
+      schema:
+        type: number
+
+    Radius:
+      name: radius
+      in: query
+      description: Radius
+      schema:
+        type: number
+
