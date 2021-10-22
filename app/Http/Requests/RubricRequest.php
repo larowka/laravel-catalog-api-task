@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RubricRequest extends FormRequest
 {
+    use HasErrorResponse;
+
     /**
      * Determine if the user is authorized to make this request.
      *
