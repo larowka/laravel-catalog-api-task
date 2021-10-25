@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Rubric;
 use App\Rules\Utils;
+use App\Rules\ValuesIn;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RubricRequest extends FormRequest
@@ -28,7 +30,7 @@ class RubricRequest extends FormRequest
     {
         return [
             'sort' => ['array', 'size:2'],
-            'with' => ['array']
+            'with' => ['array', new ValuesIn(Rubric::$relationships)]
         ];
     }
 

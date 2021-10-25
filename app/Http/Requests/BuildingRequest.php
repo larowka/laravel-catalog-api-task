@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Building;
 use App\Rules\Utils;
+use App\Rules\ValuesIn;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BuildingRequest extends FormRequest
@@ -27,10 +29,10 @@ class BuildingRequest extends FormRequest
     public function rules()
     {
         return array_merge([
-            'companies' => ['array'],
-            'sort' => ['array', 'size:2'],
-            'with' => ['array']
-        ], Searchable::validationRules());
+                'companies' => ['array'],
+                'sort' => ['array', 'size:2'],
+                'with' => ['array', new ValuesIn(Building::$relationships)]
+            ], Searchable::validationRules());
     }
 
     protected function prepareForValidation()

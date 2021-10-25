@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Company;
 use App\Rules\Utils;
+use App\Rules\ValuesIn;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CompanyRequest extends FormRequest
@@ -30,7 +32,7 @@ class CompanyRequest extends FormRequest
             'buildings' => ['array'],
             'rubrics' => ['array'],
             'sort' => ['array', 'size:2'],
-            'with' => ['array']
+            'with' => ['array', new ValuesIn(Company::$relationships)]
         ], Searchable::validationRules());
     }
 
