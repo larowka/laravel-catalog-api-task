@@ -3,30 +3,43 @@
 namespace App\Http\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 trait Sortable
 {
     protected Builder $builder;
 
-    protected string $defaultSortColumn = 'id';
-    protected string $defaultSortDirection = 'asd';
+    protected static array $sortDirections = [
+        'asc',
+        'desc'
+    ];
 
     abstract protected function &sortColumns() : array;
 
-    protected function sortDirections(): array
-    {
-        return [
-            'asc',
-            'desc'
-        ];
-    }
-
     protected function sort(string $column, string $direction)
     {
-        if (!in_array($column, $this->sortColumns())) $column = $this->defaultSortColumn;
-        if (!in_array($direction, $this->sortDirections())) $direction = $this->defaultSortDirection;
+        $errors = [];
+        if (!in_array($column, $this->sortColumns()))
+            $errors = array_merge($errors, [$column => 'Invalid sort column']);
 
-        $this->builder->orderBy($column, $direction);
+        if (!in_array($direction, self::$sortDirections))
+            $errors = array_merge($errors, [$direction => 'Invalid sort direction']);
+
+        if (count($errors) == 0)
+            return  $this->builder->orderBy($column, $direction);
+
+        // Validation and response here because through applying filters allowed sort columns can be augmented
+        throw new HttpResponseException(
+            response()->json(
+                [
+                    'error' => [
+                        'sort' => [
+                            $errors
+                        ]
+                    ]
+                ], 422
+            )
+        );
     }
 
     protected function addSortColumn(string $key)

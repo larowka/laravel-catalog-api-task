@@ -9,15 +9,9 @@ class CompanyFilter extends QueryFilter
     use Sortable;
     use Searchable;
 
-    private array $sortColumns = [
-        'id',
-        'title',
-        'created_at'
-    ];
-
     protected function &sortColumns(): array
     {
-        return $this->sortColumns;
+        return Company::$sortColumns;
     }
 
     public function buildings(string $buildings): void

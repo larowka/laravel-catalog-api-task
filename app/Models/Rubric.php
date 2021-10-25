@@ -17,7 +17,13 @@ class Rubric extends Model
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
-    public static $relationships = [
+    public static array $sortColumns = [
+        'id',
+        'title',
+        'created_at'
+    ];
+
+    public static array $relationships = [
         'subrubrics',
         'companies',
     ];

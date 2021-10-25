@@ -8,15 +8,9 @@ class RubricFilter extends QueryFilter
 {
     use Sortable;
 
-    private array $sortColumns = [
-        'id',
-        'title',
-        'created_at'
-    ];
-
     protected function &sortColumns(): array
     {
-        return $this->sortColumns;
+        return Rubric::$sortColumns;
     }
 
     public function with(string $with): void
