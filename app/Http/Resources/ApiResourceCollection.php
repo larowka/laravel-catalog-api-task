@@ -8,8 +8,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiResourceCollection extends ResourceCollection
 {
-    public static $wrap = 'data';
-
     protected array $meta;
 
     public function __construct(LengthAwarePaginator $resource)
@@ -30,7 +28,7 @@ class ApiResourceCollection extends ResourceCollection
     {
         return [
             'meta' => $this->meta,
-            'items' => $this->collection
+            'data' => $this->collection
         ];
     }
 }
