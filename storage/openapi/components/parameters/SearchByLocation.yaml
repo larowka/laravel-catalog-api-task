@@ -1,0 +1,49 @@
+name: search
+in: query
+style: form
+explode: true
+schema:
+  type: array
+  oneOf:
+    - items:
+        title: In Circle Area
+        properties:
+          lat:
+            $ref: '../schemas/Common/Latitude.yaml'
+          lon:
+            $ref: '../schemas/Common/Longitude.yaml'
+          radius:
+            $ref: '../schemas/Common/Radius.yaml'
+    - items:
+        title: In Rectangular Area
+        properties:
+          lat:
+            $ref: '../schemas/Common/Latitude.yaml'
+          lon:
+            $ref: '../schemas/Common/Longitude.yaml'
+          lat2:
+            $ref: '../schemas/Common/Latitude2.yaml'
+          lon2:
+            $ref: '../schemas/Common/Longitude2.yaml'
+    - items:
+        title: In Rectangular Area By Point
+        properties:
+          lat:
+            $ref: '../schemas/Common/Latitude.yaml'
+          lon:
+            $ref: '../schemas/Common/Longitude.yaml'
+          width:
+            $ref: '../schemas/Common/Width.yaml'
+          height:
+            $ref: '../schemas/Common/Height.yaml'
+description: |
+  Examples:
+  * objects in circle area by center and radius:
+    ```lat=33.4&lon=85.45&radius=500```
+
+  * objects in rectangular area:
+     * by two points (coordinates of left bottom and right top corners of area):
+       ```lat=33.4&lon=85.45&lat2=55.4&lon2=90```
+
+     * by center and width, height:
+         ```lat=33.4&lon=85.45&width=500&height=750```

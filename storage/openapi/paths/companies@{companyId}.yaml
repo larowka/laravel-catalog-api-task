@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Companies
+  summary: Company
+  description: |
+    Return company instance
+  operationId: GetCompany
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: '../components/parameters/Companies/CompanyId.yaml'
+    - $ref: '../components/parameters/Companies/CompaniesWith.yaml'
+  responses:
+    '200':
+      $ref: '../components/responses/Companies/200Company.yaml'
+    '404':
+      $ref: '../components/responses/404.yaml'
+    '422':
+      $ref: '../components/responses/422.yaml'

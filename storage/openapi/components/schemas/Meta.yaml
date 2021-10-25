@@ -1,0 +1,40 @@
+title: Meta Information
+description: Count of items, links
+type: object
+properties:
+  total:
+    title: Total
+    type: integer
+    format: int64
+    example: 614
+  perPage:
+    title: Per Page
+    type: integer
+    format: int64
+    example: 614
+  currentPage:
+    title: Current Page
+    type: integer
+    format: int64
+    example: 5
+  totalPages:
+    title: Total Pages
+    type: integer
+    format: int64
+    example: 60
+  nextPage:
+    title: Next Page URI
+    type: string
+    nullable: true
+    format: uri
+  prevPage:
+    title: Prev Page URI
+    type: string
+    nullable: true
+    format: uri
+
+  #perPage
+  #currentPage
+  #totalPages
+  #nextPage
+  #prevPage

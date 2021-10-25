@@ -1,0 +1,6 @@
+in: query
+name: title
+schema:
+  type: string
+required: false
+description: Object Title

@@ -1,0 +1,7 @@
+name: rubricId
+in: path
+description: Rubric ID
+schema:
+  type: integer
+  format: int64
+required: true

@@ -1,0 +1,5 @@
+name: height
+in: query
+description: Height
+schema:
+  type: number

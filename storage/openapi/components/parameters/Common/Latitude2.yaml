@@ -1,0 +1,5 @@
+name: lat2
+in: query
+description: Latitude 2
+schema:
+  type: number

@@ -1,0 +1,10 @@
+description: Ok
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        meta:
+          $ref: '../../schemas/Meta.yaml'
+        data:
+          $ref: '../../schemas/Collections/CompanyCollection.yaml'

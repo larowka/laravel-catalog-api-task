@@ -1,0 +1,9 @@
+title: Validation Error Message
+description: Description For Request Query Property Error
+type: object
+properties:
+  key:
+    title: Property
+    description: Property
+    type: string
+    example: Value

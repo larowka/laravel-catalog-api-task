@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Buildings
+  summary: Buildings
+  description: |
+    Return collection of buildings
+  operationId: GetBuildingsCollection
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: '../components/parameters/Buildings/BuildingsSort.yaml'
+    - $ref: '../components/parameters/Buildings/BuildingsWith.yaml'
+    - $ref: '../components/parameters/SearchByLocation.yaml'
+  responses:
+    '200':
+      $ref: '../components/responses/Buildings/200BuildingCollection.yaml'
+    '404':
+      $ref: '../components/responses/404.yaml'
+    '422':
+      $ref: '../components/responses/422.yaml'

@@ -1,0 +1,10 @@
+title: Validation Failed
+description: Request query failed validation
+type: object
+properties:
+  error:
+    title: Error
+    description: Failed Properties
+    type: array
+    items:
+      $ref: './ValidationErrorMessage.yaml'

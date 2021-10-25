@@ -1,0 +1,10 @@
+name: with
+in: query
+schema:
+  type: string
+  enum:
+    [companies]
+description: |
+  Load dependencies:
+   * `companies` - Load with companies
+example: 'companies'

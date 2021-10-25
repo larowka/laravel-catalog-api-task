@@ -1,0 +1,5 @@
+name: lon2
+in: query
+description: Longitude 2
+schema:
+  type: number

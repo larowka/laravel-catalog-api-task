@@ -1,0 +1,11 @@
+name: with
+in: query
+schema:
+  type: string
+  enum:
+    [subrubrics, companies]
+description: |
+  Load dependencies:
+   * `subrubrics` - Load with subrubrics
+   * `companies` - Load with companies
+example: 'subrubrics,companies'

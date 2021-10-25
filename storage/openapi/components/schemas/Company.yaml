@@ -1,0 +1,25 @@
+title: Company
+description: Company model
+type: object
+required:
+  [id, title]
+properties:
+  id:
+    title: ID
+    description: ID
+    type: integer
+    format: int64
+    example: 1
+  title:
+    title: Title
+    description: Title
+    type: string
+    example: Awesome Company
+  building:
+    $ref: './Building.yaml'
+  rubrics:
+    title: Rubrics
+    description: List of Rubrics
+    type: array
+    items:
+      $ref: './Rubric.yaml'

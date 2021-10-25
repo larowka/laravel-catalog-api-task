@@ -1,0 +1,10 @@
+title: Route Not Found
+description: Route Not Found
+type: object
+properties:
+  error:
+    title: Error
+    type: array
+    maxItems: 1
+    items:
+      $ref: './ValidationErrorMessage.yaml'

@@ -1,0 +1,22 @@
+name: sort
+in: query
+explode: false
+schema:
+  type: object
+  properties:
+    column:
+      type: string
+      enum: [id, title, created_at]
+    direction:
+      type: string
+      enum: [asc, desc]
+description: |
+  Columns:
+   * `id`         - by object Id
+   * `title`      - by object title
+   * `created_at` - by object creation timestamp
+
+  Directions:
+   * `asc`        - ascending
+   * `desc`       - descending
+example: 'id,asc'

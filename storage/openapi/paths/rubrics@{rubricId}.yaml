@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Rubrics
+  summary: Rubric
+  description: |
+    Return rubric instance
+  operationId: GetRubric
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: '../components/parameters/Rubrics/RubricId.yaml'
+    - $ref: '../components/parameters/Rubrics/RubricsWith.yaml'
+  responses:
+    '200':
+      $ref: '../components/responses/Rubrics/200Rubric.yaml'
+    '404':
+      $ref: '../components/responses/404.yaml'
+    '422':
+      $ref: '../components/responses/422.yaml'

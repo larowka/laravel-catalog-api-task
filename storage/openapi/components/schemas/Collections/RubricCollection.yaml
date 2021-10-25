@@ -1,0 +1,5 @@
+title: Company Collection
+description: Company Collection
+type: array
+items:
+  $ref: '../Rubric.yaml'

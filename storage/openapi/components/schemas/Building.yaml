@@ -1,0 +1,44 @@
+title: Building
+description: Building model
+type: object
+required:
+  [id, title, coords]
+properties:
+  id:
+    title: ID
+    description: ID
+    type: integer
+    format: int64
+    example: 1
+  title:
+    title: Title
+    description: Title
+    type: string
+    example: Awesome Building
+  coords:
+    title: Coords
+    description: Coordinates
+    type: object
+    required:
+      [lat, lon]
+    properties:
+      lat:
+        title: Latitude
+        description: Latitude
+        type: number
+        minimum: -90
+        maximum: 90
+        example: 30.4
+      lon:
+        title: Longitude
+        description: Longitude
+        type: number
+        minimum: -180
+        maximum: 180
+        example: -90.4
+  companies:
+    title: Companies
+    description: List of Companies
+    type: array
+    items:
+      $ref: './Company.yaml'

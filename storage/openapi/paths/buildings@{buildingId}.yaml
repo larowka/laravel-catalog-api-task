@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Buildings
+  summary: Building
+  description: |
+    Return building instance
+  operationId: GetBuilding
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: '../components/parameters/Buildings/BuildingId.yaml'
+    - $ref: '../components/parameters/Buildings/BuildingsWith.yaml'
+  responses:
+    '200':
+      $ref: '../components/responses/Buildings/200Building.yaml'
+    '404':
+      $ref: '../components/responses/404.yaml'
+    '422':
+      $ref: '../components/responses/422.yaml'

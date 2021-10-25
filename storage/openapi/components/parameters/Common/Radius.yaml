@@ -1,0 +1,5 @@
+name: radius
+in: query
+description: Radius
+schema:
+  type: number

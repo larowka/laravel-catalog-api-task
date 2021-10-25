@@ -1,0 +1,29 @@
+title: Rubric
+description: Rubric model
+type: object
+required:
+  [id, title]
+properties:
+  id:
+    title: ID
+    description: ID
+    type: integer
+    format: int64
+    example: 1
+  title:
+    title: Title
+    description: Title
+    type: string
+    example: Awesome Rubric
+  subrubrics:
+    title: Subrubrics
+    description: List of subrubrics
+    type: array
+    items:
+      $ref: './Rubric.yaml'
+  companies:
+    title: Companies
+    description: List of Companies
+    type: array
+    items:
+      $ref: './Company.yaml'

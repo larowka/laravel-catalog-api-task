@@ -1,0 +1,11 @@
+name: with
+in: query
+schema:
+  type: string
+  enum:
+    [building, rubrics]
+description: |
+  Load dependencies:
+   * `building` - Load with building
+   * `rubrics` - Load with rubrics
+example: 'building,rubrics'

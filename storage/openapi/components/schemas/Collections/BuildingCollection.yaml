@@ -1,0 +1,5 @@
+title: Building Collection
+description: Building Collection
+type: array
+items:
+  $ref: '../Building.yaml'

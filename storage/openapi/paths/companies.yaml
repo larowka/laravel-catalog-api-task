@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Companies
+  summary: Companies
+  description: |
+    Return collection of companies
+  operationId: GetCompaniesCollection
+  security:
+    - BearerAuth: []
+  parameters:
+    - $ref: '../components/parameters/Companies/CompaniesSort.yaml'
+    - $ref: '../components/parameters/Companies/CompaniesWith.yaml'
+    - $ref: '../components/parameters/SearchByLocation.yaml'
+  responses:
+    '200':
+      $ref: '../components/responses/Companies/200CompanyCollection.yaml'
+    '404':
+      $ref: '../components/responses/404.yaml'
+    '422':
+      $ref: '../components/responses/422.yaml'

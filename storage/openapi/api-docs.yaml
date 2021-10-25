@@ -1,57 +1,406 @@
 openapi: 3.0.3
-
 info:
-  title: OpenAPI HttpFoundation Testing Laravel Example
+  title: OpenAPI HttpFoundation Testing API
   version: 1.0.0
-
 servers:
   - url: http://localhost/api
-
 paths:
-  '/buildings':
+  /buildings:
     get:
-      description: Get buildings
+      tags:
+        - Buildings
+      summary: Buildings
+      description: |
+        Return collection of buildings
+      operationId: GetBuildingsCollection
+      security:
+        - BearerAuth: []
       parameters:
-        - $ref: '#/components/parameters/Latitude'
-        - $ref: '#/components/parameters/Longitude'
-        - $ref: '#/components/parameters/Radius'
+        - $ref: '#/components/parameters/BuildingsSort'
+        - $ref: '#/components/parameters/BuildingsWith'
+        - $ref: '#/components/parameters/SearchByLocation'
       responses:
         '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BuildingResource'
-
-    post:
-      responses:
-        200:
-          description: Ok
-
-  '/buildings/{id}':
-    parameters:
-      - $ref: '#/components/parameters/ID'
-      - $ref: '#/components/parameters/Title'
-
+          $ref: '#/components/responses/200BuildingCollection'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+  /buildings/{buildingId}:
     get:
+      tags:
+        - Buildings
+      summary: Building
+      description: |
+        Return building instance
+      operationId: GetBuilding
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/BuildingId'
+        - $ref: '#/components/parameters/BuildingsWith'
       responses:
-        200:
-          description: Ok
-    put:
+        '200':
+          $ref: '#/components/responses/200Building'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+  /companies:
+    get:
+      tags:
+        - Companies
+      summary: Companies
+      description: |
+        Return collection of companies
+      operationId: GetCompaniesCollection
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CompaniesSort'
+        - $ref: '#/components/parameters/CompaniesWith'
+        - $ref: '#/components/parameters/SearchByLocation'
       responses:
-        200:
-          description: Ok
-    delete:
+        '200':
+          $ref: '#/components/responses/200CompanyCollection'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+  /companies/{companyId}:
+    get:
+      tags:
+        - Companies
+      summary: Company
+      description: |
+        Return company instance
+      operationId: GetCompany
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CompanyId'
+        - $ref: '#/components/parameters/CompaniesWith'
       responses:
-        200:
-          description: Ok
-
+        '200':
+          $ref: '#/components/responses/200Company'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+  /rubrics:
+    get:
+      tags:
+        - Rubrics
+      summary: Rubrics
+      description: |
+        Return collection of rubrics
+      operationId: GetRubricsCollection
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RubricsSort'
+        - $ref: '#/components/parameters/RubricsWith'
+      responses:
+        '200':
+          $ref: '#/components/responses/200RubricCollection'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+  /rubrics/{rubricId}:
+    get:
+      tags:
+        - Rubrics
+      summary: Rubric
+      description: |
+        Return rubric instance
+      operationId: GetRubric
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RubricId'
+        - $ref: '#/components/parameters/RubricsWith'
+      responses:
+        '200':
+          $ref: '#/components/responses/200Rubric'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Get access to data through your JWT (JSON Web Token).
+  parameters:
+    BuildingsSort:
+      name: sort
+      in: query
+      explode: false
+      schema:
+        type: object
+        properties:
+          column:
+            type: string
+            enum:
+              - id
+              - title
+              - created_at
+          direction:
+            type: string
+            enum:
+              - asc
+              - desc
+      description: |
+        Columns:
+         * `id`         - by object Id
+         * `title`      - by object title
+         * `created_at` - by object creation timestamp
+         * `distance`   - by distance
+            > only if query have search parameters, e.g. allOf lat, lon, radius
+
+        Directions:
+         * `asc`        - ascending
+         * `desc`       - descending
+      example: id,asc
+    BuildingsWith:
+      name: with
+      in: query
+      schema:
+        type: string
+        enum:
+          - companies
+      description: |
+        Load dependencies:
+         * `companies` - Load with companies
+      example: companies
+    SearchByLocation:
+      name: search
+      in: query
+      style: form
+      explode: true
+      schema:
+        type: array
+        oneOf:
+          - items:
+              title: In Circle Area
+              properties:
+                lat:
+                  $ref: '#/components/schemas/Latitude'
+                lon:
+                  $ref: '#/components/schemas/Longitude'
+                radius:
+                  $ref: '#/components/schemas/Radius'
+          - items:
+              title: In Rectangular Area
+              properties:
+                lat:
+                  $ref: '#/components/schemas/Latitude'
+                lon:
+                  $ref: '#/components/schemas/Longitude'
+                lat2:
+                  $ref: '#/components/schemas/Latitude2'
+                lon2:
+                  $ref: '#/components/schemas/Longitude2'
+          - items:
+              title: In Rectangular Area By Point
+              properties:
+                lat:
+                  $ref: '#/components/schemas/Latitude'
+                lon:
+                  $ref: '#/components/schemas/Longitude'
+                width:
+                  $ref: '#/components/schemas/Width'
+                height:
+                  $ref: '#/components/schemas/Height'
+      description: |
+        Examples:
+        * objects in circle area by center and radius:
+          ```lat=33.4&lon=85.45&radius=500```
+
+        * objects in rectangular area:
+           * by two points (coordinates of left bottom and right top corners of area):
+             ```lat=33.4&lon=85.45&lat2=55.4&lon2=90```
+
+           * by center and width, height:
+               ```lat=33.4&lon=85.45&width=500&height=750```
+    BuildingId:
+      name: buildingId
+      in: path
+      description: Building ID
+      schema:
+        type: integer
+        format: int64
+      required: true
+      example: '1'
+    CompaniesSort:
+      name: sort
+      in: query
+      explode: false
+      schema:
+        type: object
+        properties:
+          column:
+            type: string
+            enum:
+              - id
+              - title
+              - created_at
+          direction:
+            type: string
+            enum:
+              - asc
+              - desc
+      description: |
+        Columns:
+         * `id`         - by object Id
+         * `title`      - by object title
+         * `created_at` - by object creation timestamp
+         * `distance`   - by distance
+            > only if query have search parameters, e.g. allOf lat, lon, radius
+
+        Directions:
+         * `asc`        - ascending
+         * `desc`       - descending
+      example: id,asc
+    CompaniesWith:
+      name: with
+      in: query
+      schema:
+        type: string
+        enum:
+          - building
+          - rubrics
+      description: |
+        Load dependencies:
+         * `building` - Load with building
+         * `rubrics` - Load with rubrics
+      example: building,rubrics
+    CompanyId:
+      name: companyId
+      in: path
+      description: Company ID
+      schema:
+        type: integer
+        format: int64
+      required: true
+    RubricsSort:
+      name: sort
+      in: query
+      explode: false
+      schema:
+        type: object
+        properties:
+          column:
+            type: string
+            enum:
+              - id
+              - title
+              - created_at
+          direction:
+            type: string
+            enum:
+              - asc
+              - desc
+      description: |
+        Columns:
+         * `id`         - by object Id
+         * `title`      - by object title
+         * `created_at` - by object creation timestamp
+
+        Directions:
+         * `asc`        - ascending
+         * `desc`       - descending
+      example: id,asc
+    RubricsWith:
+      name: with
+      in: query
+      schema:
+        type: string
+        enum:
+          - subrubrics
+          - companies
+      description: |
+        Load dependencies:
+         * `subrubrics` - Load with subrubrics
+         * `companies` - Load with companies
+      example: subrubrics,companies
+    RubricId:
+      name: rubricId
+      in: path
+      description: Rubric ID
+      schema:
+        type: integer
+        format: int64
+      required: true
   schemas:
+    Latitude:
+      type: number
+      description: Latitude
+    Longitude:
+      type: number
+      description: Longitude
+    Radius:
+      type: number
+      description: Radius
+    Latitude2:
+      type: number
+      description: Latitude2
+    Longitude2:
+      type: number
+      description: Longitude 2
+    Width:
+      type: number
+      description: Width
+    Height:
+      type: number
+      description: Height
+    Meta:
+      title: Meta Information
+      description: Count of items, links
+      type: object
+      properties:
+        total:
+          title: Total
+          type: integer
+          format: int64
+          example: 614
+        perPage:
+          title: Per Page
+          type: integer
+          format: int64
+          example: 614
+        currentPage:
+          title: Current Page
+          type: integer
+          format: int64
+          example: 5
+        totalPages:
+          title: Total Pages
+          type: integer
+          format: int64
+          example: 60
+        nextPage:
+          title: Next Page URI
+          type: string
+          nullable: true
+          format: uri
+        prevPage:
+          title: Prev Page URI
+          type: string
+          nullable: true
+          format: uri
     Building:
       title: Building
       description: Building model
       type: object
+      required:
+        - id
+        - title
+        - coords
       properties:
         id:
           title: ID
@@ -68,65 +417,211 @@ components:
           title: Coords
           description: Coordinates
           type: object
+          required:
+            - lat
+            - lon
           properties:
             lat:
               title: Latitude
               description: Latitude
               type: number
+              minimum: -90
+              maximum: 90
               example: 30.4
             lon:
               title: Longitude
               description: Longitude
               type: number
+              minimum: -180
+              maximum: 180
               example: -90.4
-
-    BuildingResource:
-      title: Building Resource
-      description: Building Resource
-      type: object
-      properties:
-        data:
-          title: Data
-          description: Data wrapper
+        companies:
+          title: Companies
+          description: List of Companies
           type: array
           items:
-            $ref: '#/components/schemas/Building'
-
-  parameters:
-    ID:
-      in: path
-      name: id
-      schema:
-        type: integer
-      required: true
-      description: Object ID
-
-    Title:
-      in: query
-      name: title
-      schema:
-        type: string
-      required: false
-      description: Object Title
-
-    Latitude:
-      name: lat
-      in: query
-      description: Latitude
-      schema:
-        type: number
-
-    Longitude:
-      name: lon
-      in: query
-      description: Longitude
-      schema:
-        type: number
-
-    Radius:
-      name: radius
-      in: query
-      description: Radius
-      schema:
-        type: number
-
+            $ref: '#/components/schemas/Company'
+    Rubric:
+      title: Rubric
+      description: Rubric model
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          title: ID
+          description: ID
+          type: integer
+          format: int64
+          example: 1
+        title:
+          title: Title
+          description: Title
+          type: string
+          example: Awesome Rubric
+        subrubrics:
+          title: Subrubrics
+          description: List of subrubrics
+          type: array
+          items:
+            $ref: '#/components/schemas/Rubric'
+        companies:
+          title: Companies
+          description: List of Companies
+          type: array
+          items:
+            $ref: '#/components/schemas/Company'
+    Company:
+      title: Company
+      description: Company model
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          title: ID
+          description: ID
+          type: integer
+          format: int64
+          example: 1
+        title:
+          title: Title
+          description: Title
+          type: string
+          example: Awesome Company
+        building:
+          $ref: '#/components/schemas/Building'
+        rubrics:
+          title: Rubrics
+          description: List of Rubrics
+          type: array
+          items:
+            $ref: '#/components/schemas/Rubric'
+    BuildingCollection:
+      title: Building Collection
+      description: Building Collection
+      type: array
+      items:
+        $ref: '#/components/schemas/Building'
+    ValidationErrorMessage:
+      title: Validation Error Message
+      description: Description For Request Query Property Error
+      type: object
+      properties:
+        key:
+          title: Property
+          description: Property
+          type: string
+          example: Value
+    RouteNotFound:
+      title: Route Not Found
+      description: Route Not Found
+      type: object
+      properties:
+        error:
+          title: Error
+          type: array
+          maxItems: 1
+          items:
+            $ref: '#/components/schemas/ValidationErrorMessage'
+    ValidationFailed:
+      title: Validation Failed
+      description: Request query failed validation
+      type: object
+      properties:
+        error:
+          title: Error
+          description: Failed Properties
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorMessage'
+    CompanyCollection:
+      title: Rubric Collection
+      description: Rubric Collection
+      type: array
+      items:
+        $ref: '#/components/schemas/Company'
+    RubricCollection:
+      title: Company Collection
+      description: Company Collection
+      type: array
+      items:
+        $ref: '#/components/schemas/Rubric'
+  responses:
+    '404':
+      description: Route Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RouteNotFound'
+    '422':
+      description: Validation Failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationFailed'
+    200BuildingCollection:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/components/schemas/Meta'
+              data:
+                $ref: '#/components/schemas/BuildingCollection'
+    200Building:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Building'
+    200CompanyCollection:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/components/schemas/Meta'
+              data:
+                $ref: '#/components/schemas/CompanyCollection'
+    200Company:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Company'
+    200RubricCollection:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/components/schemas/Meta'
+              data:
+                $ref: '#/components/schemas/RubricCollection'
+    200Rubric:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Rubric'

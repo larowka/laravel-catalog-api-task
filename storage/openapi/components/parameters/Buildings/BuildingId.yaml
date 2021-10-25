@@ -1,0 +1,8 @@
+name: buildingId
+in: path
+description: Building ID
+schema:
+  type: integer
+  format: int64
+required: true
+example: '1'

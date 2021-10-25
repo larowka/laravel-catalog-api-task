@@ -1,0 +1,37 @@
+openapi: 3.0.3
+
+info:
+  title: OpenAPI HttpFoundation Testing API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost/api
+
+paths:
+  # Buildings
+  '/buildings':
+    $ref: './paths/buildings.yaml'
+  '/buildings/{buildingId}':
+    $ref: './paths/buildings@{buildingId}.yaml'
+
+  # Companies
+  '/companies':
+    $ref: './paths/companies.yaml'
+  '/companies/{companyId}':
+    $ref: './paths/companies@{companyId}.yaml'
+
+  # Rubrics
+  '/rubrics':
+    $ref: './paths/rubrics.yaml'
+  '/rubrics/{rubricId}':
+    $ref: './paths/rubrics@{rubricId}.yaml'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Get access to data through your JWT (JSON Web Token).
+#        How to get a token read in the <b>Authentication</b> section
