@@ -81,8 +81,8 @@ trait Searchable
 
         $this->lat -= $dLat;
         $this->lon -= $dLon;
-        $this->lat2 += $dLat;
-        $this->lon2 += $dLon;
+        $this->lat2 = $dLat;
+        $this->lon2 = $dLon;
 
         $this->inRectangle();
     }
