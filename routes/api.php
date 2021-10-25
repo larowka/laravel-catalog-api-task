@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\RubricController;
@@ -17,23 +18,20 @@ use App\Http\Controllers\RubricController;
 |
 */
 
-Route::apiResource('companies', CompanyController::class)->only([
-    'index', 'show'
-]);
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth.jwt');
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::post('me', [AuthController::class, 'me']);
+    });
 
-Route::apiResource('buildings', BuildingController::class)->only([
-    'index', 'show'
-]);
+    Route::apiResource('companies', CompanyController::class)
+        ->only(['index', 'show']);
 
-Route::apiResource('rubrics', RubricController::class)->only([
-    'index', 'show'
-]);
+    Route::apiResource('buildings', BuildingController::class)
+        ->only(['index', 'show']);
 
-Route::fallback(function(){
-    return response()->json(
-        ['error' =>
-            ['route' => 'Not Found']
-        ],
-        404
-    );
+    Route::apiResource('rubrics', RubricController::class)
+        ->only(['index', 'show']);
 });
